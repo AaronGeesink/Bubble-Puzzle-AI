@@ -1,50 +1,64 @@
-def DepthLimitedSearch(puzzle, pieces, currentDepth, maxDepth):
+import copy
+
+def DepthLimitedSearch(puzzle, pieces, currentDepth, maxDepth, solved):
 	prune = False
 	rows = len(puzzle)
 	cols = len(puzzle)
-
-	for i in range (rows):
-		print(puzzle[i])
 
 	pieceRows = len(pieces[currentDepth])
 	pieceCols = len(pieces[currentDepth][0])
 
 	for i in range(rows):
+		# Check if piece will go out of bounds of the puzzle rows
+		if (i + pieceRows > rows):
+			break
 		for j in range(cols):
+			if solved[0]:
+				break
 			if puzzle[i][j] == -1:
 				break
 
-			# check if piece will cause out of bounds error
-			# TODO
-			if (i + pieceRows >= rows or j + pieceCols >= cols):
+			# Check if piece will go out of bounds of the puzzle cols
+			if (j + pieceCols > cols):
 				break
 
 			# Put the piece down if this is a valid spot
-			# TODO
+			tempPuzzle = copy.deepcopy(puzzle)
+			prune = False
 			for k in range(pieceRows):
 				if (prune):
 					break
 				for l in range(pieceCols):
-					if (puzzle[i+k][j+l] >= 1 and pieces[currentDepth][k][l] == 1):
+					if ((tempPuzzle[i+k][j+l] >= 1 or tempPuzzle[i+k][j+l] == -1) and pieces[currentDepth][k][l] == 1):
 						prune = True
 						break
-					elif (puzzle[i+k][j+l] == 0 and pieces[currentDepth][k][l] == 1):
-						puzzle[i+k][j+l] = currentDepth + 1
-						
+					elif (pieces[currentDepth][k][l] == 1):
+						tempPuzzle[i+k][j+l] = currentDepth + 1
+			
+			# Consider the puzzle if we were able to insert a piece
+			if (prune == False):
+				puzzle = copy.deepcopy(tempPuzzle)
 
-			# Prune if able
+			for k in range (rows):
+				print(puzzle[k])
+			print("\n")
+
+			# TODO: Prune if able
 			# prune = Pruning(puzzle)
 
 			# Recursively call the DLS function for the new depth if we want to
-			if (prune == False or currentDepth < maxDepth - 1):
-				DepthLimitedSearch(puzzle, pieces, currentDepth + 1, maxDepth)
-	return
+			if (prune == False and currentDepth < maxDepth - 1):
+				solved[0] = DepthLimitedSearch(puzzle, pieces, currentDepth + 1, maxDepth, solved)
+			elif (prune == False and currentDepth == maxDepth - 1):
+				return True
+	return solved[0]
 
 # Helper function for the Depth Limited Search
 def BubblePuzzleAI(puzzle, pieces):
 	currentDepth = 0
 	maxDepth = len(pieces)
-	DepthLimitedSearch(puzzle, pieces, currentDepth, maxDepth)
+	solved = [False]
+	DepthLimitedSearch(puzzle, pieces, currentDepth, maxDepth, solved)
 	return
 
 # initial puzzle board
