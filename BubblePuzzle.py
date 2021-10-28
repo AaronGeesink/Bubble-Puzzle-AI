@@ -1,5 +1,6 @@
 import copy
 
+# Depth Limited Search for the puzzle
 def DepthLimitedSearch(puzzle, pieces, currentDepth, maxDepth, solved):
 	prune = False
 	rows = len(puzzle)
@@ -29,14 +30,14 @@ def DepthLimitedSearch(puzzle, pieces, currentDepth, maxDepth, solved):
 				if (prune):
 					break
 				for l in range(pieceCols):
-					if ((tempPuzzle[i+k][j+l] >= 1 or tempPuzzle[i+k][j+l] == -1) and pieces[currentDepth][k][l] == 1):
+					if ((puzzle[i+k][j+l] >= 1 or puzzle[i+k][j+l] == -1) and pieces[currentDepth][k][l] == 1):
 						prune = True
 						break
 					elif (pieces[currentDepth][k][l] == 1):
-						tempPuzzle[i+k][j+l] = currentDepth + 1
+						puzzle[i+k][j+l] = currentDepth + 1
 			
 			# Consider the puzzle if we were able to insert a piece
-			if (prune == False):
+			if (prune == True):
 				puzzle = copy.deepcopy(tempPuzzle)
 
 			for k in range (rows):
@@ -49,6 +50,8 @@ def DepthLimitedSearch(puzzle, pieces, currentDepth, maxDepth, solved):
 			# Recursively call the DLS function for the new depth if we want to
 			if (prune == False and currentDepth < maxDepth - 1):
 				solved[0] = DepthLimitedSearch(puzzle, pieces, currentDepth + 1, maxDepth, solved)
+				if (solved[0] == False):
+					puzzle = copy.deepcopy(tempPuzzle)
 			elif (prune == False and currentDepth == maxDepth - 1):
 				return True
 	return solved[0]
@@ -61,38 +64,75 @@ def BubblePuzzleAI(puzzle, pieces):
 	DepthLimitedSearch(puzzle, pieces, currentDepth, maxDepth, solved)
 	return
 
+# Pruning function
+# returns True if puzzle should be pruned
+#def Pruning(puzzle):
+#    for i in range(len(puzzle):
+#        for j in range(len(puzzle[i])):
+#            if puzzle[i][j] = 0:        # one empty space
+#                if (puzzle[i-1][j-1] = 1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = 1) # most common case with no -1
+#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = -1 and puzzle[i-1][j+1] = -1 and puzzle[i][j-1] = -1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = -1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = 1)
+#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = -1 and puzzle[i-1][j+1] = -1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = 1)
+#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = -1 and puzzle[i-1][j+1] = -1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = -1)
+#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = -1 and puzzle[i-1][j+1] = -1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = -1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = -1 and puzzle[i+1][j+1] = -1)
+#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = -1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = -1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = 1)
+#                or (puzzle[i-1][j-1] = 1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = -1)
+#                or (puzzle[i-1][j-1] = 1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = -1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = -1 and puzzle[i+1][j+1] = -1)
+#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = -1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = -1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = -1)
+#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = -1 and puzzle[i][j+1] = -1 and puzzle[i+1][j-1] = -1 and puzzle[i+1][j] = -1 and puzzle[i+1][j+1] = -1):
+#                    puzzle =[
+#                        [ 0, 0, 0, 0 ],
+#                        [ 0, 0, 0, -1 ],
+#                        [ 0, 0, -1, -1 ],
+#                        [ 0, -1, -1, -1 ]
+#                    ]
+#            if (puzzle[i][j] = 0 and puzzle[i][j+1] = 0)     # two empty spaces next to each other
+#            or (puzzle[i][j] = 0 and puzzle[i+1][j] = 0)     # two empty spaces one below the other
+#            or (puzzle[i][j] = 0 and puzzle[i+1][j-1] = 0)   # two empty spaces diagonal below to the left
+#            or (puzzle[i][j] = 0 and puzzle[i+1][j+1] = 0):  # two empty spaces diagonal below to the right
+#                if (puzzle[][])
+#                    puzzle =[
+#                            [ 0, 0, 0, 0 ],
+#                            [ 0, 0, 0, -1 ],
+#                            [ 0, 0, -1, -1 ],
+#                            [ 0, -1, -1, -1 ]
+#                        ]
+
+# ----------------- main program ----------------------
+
 # initial puzzle board
 # 0 means empty space, -1 means it's off the board
-puzzle =[
+puzzle4x4 =[
     [ 0, 0, 0, 0 ],
     [ 0, 0, 0, -1 ],
     [ 0, 0, -1, -1 ],
     [ 0, -1, -1, -1 ]
 ]
 
-#puzzle =[
-#    [ 0, 0, 0, 0, 0, 0, 0 ],
-#    [ 0, 0, 0, 0, 0, 0, -1 ],
-#    [ 0, 0, 0, 0, 0, -1, -1 ],
-#    [ 0, 0, 0, 0, -1, -1, -1 ],
-#    [ 0, 0, 0, -1, -1, -1, -1 ],
-#    [ 0, 0, -1, -1, -1, -1, -1 ],
-#    [ 0, -1, -1, -1, -1, -1, -1 ]
-#]
+puzzle7x7 =[
+    [ 0, 0, 0, 0, 0, 0, 0 ],
+    [ 0, 0, 0, 0, 0, 0, -1 ],
+    [ 0, 0, 0, 0, 0, -1, -1 ],
+    [ 0, 0, 0, 0, -1, -1, -1 ],
+    [ 0, 0, 0, -1, -1, -1, -1 ],
+    [ 0, 0, -1, -1, -1, -1, -1 ],
+    [ 0, -1, -1, -1, -1, -1, -1 ]
+]
 
-#puzzle =[
-#    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-#    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 ],
-#    [ 0, 0, 0, 0, 0, 0, 0, 0, -1, -1 ],
-#    [ 0, 0, 0, 0, 0, 0, 0, -1, -1, -1 ]
-#    [ 0, 0, 0, 0, 0, 0, -1, -1, -1, -1 ]
-#    [ 0, 0, 0, 0, 0, -1, -1, -1, -1, -1 ]
-#    [ 0, 0, 0, 0, -1, -1, -1, -1, -1, -1 ]
-#    [ 0, 0, 0, -1, -1, -1, -1, -1, -1, -1 ]
-#    [ 0, 0, -1, -1, -1, -1, -1, -1, -1, -1 ]
-#    [ 0, -1, -1, -1, -1, -1, -1, -1, -1, -1 ]
-#]
+puzzle10x10 =[
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 ],
+    [ 0, 0, 0, 0, 0, 0, 0, 0, -1, -1 ],
+    [ 0, 0, 0, 0, 0, 0, 0, -1, -1, -1 ],
+    [ 0, 0, 0, 0, 0, 0, -1, -1, -1, -1 ],
+    [ 0, 0, 0, 0, 0, -1, -1, -1, -1, -1 ],
+    [ 0, 0, 0, 0, -1, -1, -1, -1, -1, -1 ],
+    [ 0, 0, 0, -1, -1, -1, -1, -1, -1, -1 ],
+    [ 0, 0, -1, -1, -1, -1, -1, -1, -1, -1 ],
+    [ 0, -1, -1, -1, -1, -1, -1, -1, -1, -1 ]
+]
 
+# list of pieces
 p1 = [[ 1, 1 ],         # light green
       [ 1, 0 ],
       [ 1, 0 ],  
@@ -136,39 +176,11 @@ p11 = [[ 0, 0, 1, 1 ],  # dark blue
 p12 = [[ 1, 1, 1, 1 ],  # yellow
        [ 0, 0, 0, 0 ]]  
 
-pieces = [p1, p2]
-#pieces = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12]
+#pieces4x4 = [p2, p1]
+#pieces7x7 = [p1, p2, p3, p4, p5, p6]
+#pieces10x10 = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12]
+optimizedPieces10x10 = [p7, p9, p10, p12, p8, p11, p3, p4, p6, p5, p1, p2]
 
-#def Pruning(puzzle):
-#    for i in range(len(puzzle):
-#        for j in range(len(puzzle[i])):
-#            if puzzle[i][j] = 0:        # one empty space
-#                if (puzzle[i-1][j-1] = 1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = 1) # most common case with no -1
-#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = -1 and puzzle[i-1][j+1] = -1 and puzzle[i][j-1] = -1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = -1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = 1)
-#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = -1 and puzzle[i-1][j+1] = -1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = 1)
-#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = -1 and puzzle[i-1][j+1] = -1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = -1)
-#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = -1 and puzzle[i-1][j+1] = -1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = -1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = -1 and puzzle[i+1][j+1] = -1)
-#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = -1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = -1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = 1)
-#                or (puzzle[i-1][j-1] = 1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = -1)
-#                or (puzzle[i-1][j-1] = 1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = -1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = -1 and puzzle[i+1][j+1] = -1)
-#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = -1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = -1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = -1)
-#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = -1 and puzzle[i][j+1] = -1 and puzzle[i+1][j-1] = -1 and puzzle[i+1][j] = -1 and puzzle[i+1][j+1] = -1):
-#                    puzzle =[
-#                        [ 0, 0, 0, 0 ],
-#                        [ 0, 0, 0, -1 ],
-#                        [ 0, 0, -1, -1 ],
-#                        [ 0, -1, -1, -1 ]
-#                    ]
-#            if (puzzle[i][j] = 0 and puzzle[i][j+1] = 0)     # two empty spaces next to each other
-#            or (puzzle[i][j] = 0 and puzzle[i+1][j] = 0)     # two empty spaces one below the other
-#            or (puzzle[i][j] = 0 and puzzle[i+1][j-1] = 0)   # two empty spaces diagonal below to the left
-#            or (puzzle[i][j] = 0 and puzzle[i+1][j+1] = 0):  # two empty spaces diagonal below to the right
-#                if (puzzle[][])
-#                    puzzle =[
-#                            [ 0, 0, 0, 0 ],
-#                            [ 0, 0, 0, -1 ],
-#                            [ 0, 0, -1, -1 ],
-#                            [ 0, -1, -1, -1 ]
-#                        ]
-
-BubblePuzzleAI(puzzle, pieces)
+#BubblePuzzleAI(puzzle4x4, pieces4x4)
+#BubblePuzzleAI(puzzle7x7, pieces7x7)
+BubblePuzzleAI(puzzle10x10, optimizedPieces10x10)
