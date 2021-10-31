@@ -66,26 +66,33 @@ def BubblePuzzleAI(puzzle, pieces):
 
 # Pruning function
 # returns True if puzzle should be pruned
-#def Pruning(puzzle):
-#    for i in range(len(puzzle):
-#        for j in range(len(puzzle[i])):
-#            if puzzle[i][j] = 0:        # one empty space
-#                if (puzzle[i-1][j-1] = 1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = 1) # most common case with no -1
-#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = -1 and puzzle[i-1][j+1] = -1 and puzzle[i][j-1] = -1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = -1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = 1)
-#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = -1 and puzzle[i-1][j+1] = -1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = 1)
-#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = -1 and puzzle[i-1][j+1] = -1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = -1)
-#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = -1 and puzzle[i-1][j+1] = -1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = -1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = -1 and puzzle[i+1][j+1] = -1)
-#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = -1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = -1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = 1)
-#                or (puzzle[i-1][j-1] = 1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = -1)
-#                or (puzzle[i-1][j-1] = 1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = 1 and puzzle[i][j+1] = -1 and puzzle[i+1][j-1] = 1 and puzzle[i+1][j] = -1 and puzzle[i+1][j+1] = -1)
-#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = -1 and puzzle[i][j+1] = 1 and puzzle[i+1][j-1] = -1 and puzzle[i+1][j] = 1 and puzzle[i+1][j+1] = -1)
-#                or (puzzle[i-1][j-1] = -1 and puzzle[i-1][j] = 1 and puzzle[i-1][j+1] = 1 and puzzle[i][j-1] = -1 and puzzle[i][j+1] = -1 and puzzle[i+1][j-1] = -1 and puzzle[i+1][j] = -1 and puzzle[i+1][j+1] = -1):
-#                    puzzle =[
-#                        [ 0, 0, 0, 0 ],
-#                        [ 0, 0, 0, -1 ],
-#                        [ 0, 0, -1, -1 ],
-#                        [ 0, -1, -1, -1 ]
-#                    ]
+def Pruning(puzzle):
+    for i in range(len(puzzle)):
+        for j in range(len(puzzle[i])):
+            if ((puzzle[i][j] == 0) and (i == 0 and j == 0)): 
+				if (((puzzle[i-1][j-1] == -1) or (puzzle[i-1][j-1] >= 1))): 
+				#and ((puzzle[i-1][j] == 1) or (puzzle[i-1][j] >= 1))
+				#and ((puzzle[i-1][j+1] == 1) or (puzzle[i-1][j+1] >= 1)) 
+				#and ((puzzle[i][j-1] == 1) or (puzzle[i][j-1] >= 1))
+				#and ((puzzle[i][j+1] == 1) or (puzzle[i][j+1] >= 1))
+				#and ((puzzle[i+1][j-1] == 1) or (puzzle[i+1][j-1] >= 1))
+				#and ((puzzle[i+1][j] == 1) or (puzzle[i+1][j] >= 1))
+				#and ((puzzle[i+1][j+1] == 1) or (puzzle[i+1][j+1] >= 1))):
+                	#return True   
+			#elif (puzzle[i][j] == 0) and (i == 0 and j == len(puzzle) - 1):
+			#elif (puzzle[i][j] == 0) and (i == len(puzzle) - 1 and j == 0):
+			#elif (puzzle[i][j] == 0) and (i == 0):
+			#elif (puzzle[i][j] == 0) and (j == 0):
+			#elif (puzzle[i][j] == 0):
+            #   if (((puzzle[i-1][j-1] == -1) or (puzzle[i-1][j-1] >= 1)) 
+			#	and ((puzzle[i-1][j] == 1) or (puzzle[i-1][j] >= 1))
+			#	and ((puzzle[i-1][j+1] == 1) or (puzzle[i-1][j+1] >= 1)) 
+			#	and ((puzzle[i][j-1] == 1) or (puzzle[i][j-1] >= 1))
+			#	and ((puzzle[i][j+1] == 1) or (puzzle[i][j+1] >= 1))
+			#	and ((puzzle[i+1][j-1] == 1) or (puzzle[i+1][j-1] >= 1))
+			#	and ((puzzle[i+1][j] == 1) or (puzzle[i+1][j] >= 1))
+			#	and ((puzzle[i+1][j+1] == 1) or (puzzle[i+1][j+1] >= 1))):
+            #   	return True
 #            if (puzzle[i][j] = 0 and puzzle[i][j+1] = 0)     # two empty spaces next to each other
 #            or (puzzle[i][j] = 0 and puzzle[i+1][j] = 0)     # two empty spaces one below the other
 #            or (puzzle[i][j] = 0 and puzzle[i+1][j-1] = 0)   # two empty spaces diagonal below to the left
@@ -179,8 +186,29 @@ p12 = [[ 1, 1, 1, 1 ],  # yellow
 #pieces4x4 = [p2, p1]
 #pieces7x7 = [p1, p2, p3, p4, p5, p6]
 #pieces10x10 = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12]
-optimizedPieces10x10 = [p7, p9, p10, p12, p8, p11, p3, p4, p6, p5, p1, p2]
+#optimizedPieces10x10 = [p7, p9, p10, p12, p8, p11, p3, p4, p6, p5, p1, p2]
 
 #BubblePuzzleAI(puzzle4x4, pieces4x4)
 #BubblePuzzleAI(puzzle7x7, pieces7x7)
-BubblePuzzleAI(puzzle10x10, optimizedPieces10x10)
+#BubblePuzzleAI(puzzle10x10, optimizedPieces10x10)
+
+testpuzzle4x4 =[
+    [ 0, 1, 0, 0 ],
+    [ 1, 1, 0, -1 ],
+    [ 0, 0, -1, -1 ],
+    [ 0, -1, -1, -1 ]
+]
+
+testpuzzle7x7 =[
+    [ 0, 0, 0, 0, 0, 0, 0 ],
+    [ 0, 0, 0, 0, 0, 0, -1 ],
+    [ 0, 0, 1, 1, 1, -1, -1 ],
+    [ 0, 0, 1, 0, -1, -1, -1 ],
+    [ 0, 0, 1, -1, -1, -1, -1 ],
+    [ 0, 0, -1, -1, -1, -1, -1 ],
+    [ 0, -1, -1, -1, -1, -1, -1 ]
+]
+
+print(Pruning(testpuzzle7x7))
+print(True)
+print(False)
