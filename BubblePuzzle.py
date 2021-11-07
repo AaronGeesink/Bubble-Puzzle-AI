@@ -1,5 +1,6 @@
 import copy
 import time
+from matplotlib import pyplot as plt
 
 # Depth Limited Search for the puzzle
 # Places the puzzle pieces onto the board in the order that they are listed in the pieces array.
@@ -15,6 +16,9 @@ def DepthLimitedSearch(puzzle, pieces, currentDepth, maxDepth, pruneSize):
 	prune = False
 	rows = len(puzzle)
 	cols = len(puzzle)
+
+	plt.imshow(puzzle)
+	plt.pause(0.000000001)
 
 	pieceRows = len(pieces[currentDepth])
 	pieceCols = len(pieces[currentDepth][0])
