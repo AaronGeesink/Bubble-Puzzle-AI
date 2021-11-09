@@ -11,7 +11,7 @@ import time
 #		maxDepth: the maximum depth of the DLS
 #		pruneSize: the maximum size of islands that should be pruned. size can be 0, 1, 2, or 3+
 # returns: void	
-def DepthLimitedSearch(puzzle, pieces, currentDepth, maxDepth, pruneSize):
+def DepthLimitedSearch(puzzle, pieces, currentDepth, maxDepth, pruneSize, nodesExpanded):
 	prune = False
 	rows = len(puzzle)
 	cols = len(puzzle)
@@ -56,7 +56,8 @@ def DepthLimitedSearch(puzzle, pieces, currentDepth, maxDepth, pruneSize):
 
 			# Recursively call the DLS function for the new depth if we aren't pruning
 			if (prune == False and currentDepth < maxDepth - 1):
-				DepthLimitedSearch(puzzle, pieces, currentDepth + 1, maxDepth, pruneSize)
+				nodesExpanded[0] = nodesExpanded[0] + 1
+				DepthLimitedSearch(puzzle, pieces, currentDepth + 1, maxDepth, pruneSize, nodesExpanded)
 				puzzle = copy.deepcopy(tempPuzzle)
 			# Base Case : we found a valid puzzle board. print the board and return True
 			elif (prune == False and currentDepth == maxDepth - 1):
@@ -70,8 +71,9 @@ def DepthLimitedSearch(puzzle, pieces, currentDepth, maxDepth, pruneSize):
 def BubblePuzzleAI(puzzle, pieces, pruneSize):
 	currentDepth = 0
 	maxDepth = len(pieces)
-	DepthLimitedSearch(puzzle, pieces, currentDepth, maxDepth, pruneSize)
-	return
+	nodesExpanded = [0]
+	DepthLimitedSearch(puzzle, pieces, currentDepth, maxDepth, pruneSize, nodesExpanded)
+	return nodesExpanded[0]
 
 # Pruning function
 # counts the number of zeros around each zero to determine if an island of zeros exists
@@ -281,10 +283,11 @@ if __name__ == "__main__":
 
 	print("Finding solutions to the puzzle:")
 	start = time.time()
-	BubblePuzzleAI(ninePuzzle10x10, ninePiece10x10, 3)
+	nodesExpanded = BubblePuzzleAI(ninePuzzle10x10, ninePiece10x10, 3)
 	end = time.time()
 	seconds = end - start
 	print("Time taken: %.3f seconds" %seconds)
+	print("Number of nodes expanded: %s\n" %nodesExpanded)
 
 	print("Here is a puzzle with 1 piece inserted into it:")
 	for i in range (len(elevenPuzzle10x10)):
@@ -293,10 +296,11 @@ if __name__ == "__main__":
 
 	print("Finding solutions to the puzzle:")
 	start = time.time()
-	BubblePuzzleAI(elevenPuzzle10x10, elevenPiece10x10, 3)
+	nodesExpanded = BubblePuzzleAI(elevenPuzzle10x10, elevenPiece10x10, 3)
 	end = time.time()
 	seconds = end - start
 	print("Time taken: %.3f seconds" %seconds)
+	print("Number of nodes expanded: %s\n" %nodesExpanded)
 
 	print("Here is an empty puzzle board with no pieces inserted into it:")
 	for i in range (len(puzzle10x10)):
@@ -306,34 +310,38 @@ if __name__ == "__main__":
 	print("Finding solutions to the puzzle by pruning islands of up to size 3:")
 	start = time.time()
 	puzzle = copy.deepcopy(puzzle10x10)
-	BubblePuzzleAI(puzzle, twelvePieces10x10, 3)
+	nodesExpanded = BubblePuzzleAI(puzzle, twelvePieces10x10, 3)
 	end = time.time()
 	seconds = end - start
 	print("Time taken: %.3f seconds" %seconds)
+	print("Number of nodes expanded: %s\n" %nodesExpanded)
 
 	print("Finding solutions to the puzzle by pruning islands of up to size 2:")
 	start = time.time()
 	puzzle = copy.deepcopy(puzzle10x10)
-	BubblePuzzleAI(puzzle, twelvePieces10x10, 2)
+	nodesExpanded = BubblePuzzleAI(puzzle, twelvePieces10x10, 2)
 	end = time.time()
 	seconds = end - start
 	print("Time taken: %.3f seconds" %seconds)
+	print("Number of nodes expanded: %s\n" %nodesExpanded)
 
 	print("Finding solutions to the puzzle by pruning islands of up to size 1:")
 	start = time.time()
 	puzzle = copy.deepcopy(puzzle10x10)
-	BubblePuzzleAI(puzzle, twelvePieces10x10, 1)
+	nodesExpanded = BubblePuzzleAI(puzzle, twelvePieces10x10, 1)
 	end = time.time()
 	seconds = end - start
 	print("Time taken: %.3f seconds" %seconds)
+	print("Number of nodes expanded: %s\n" %nodesExpanded)
 
 	print("Finding solutions to the puzzle without pruning any islands:")
 	start = time.time()
 	puzzle = copy.deepcopy(puzzle10x10)
-	BubblePuzzleAI(puzzle, twelvePieces10x10, 0)
+	nodesExpanded = BubblePuzzleAI(puzzle, twelvePieces10x10, 0)
 	end = time.time()
 	seconds = end - start
 	print("Time taken: %.3f seconds" %seconds)
+	print("Number of nodes expanded: %s\n" %nodesExpanded)
 
 	#pruning algorithm test cases
 	'''
