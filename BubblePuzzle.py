@@ -1,5 +1,7 @@
 import copy
 import time
+# uncomment this to show the visualization (WARNING: runs very slowly!)
+# from matplotlib import pyplot as plt
 
 # Depth Limited Search for the puzzle
 # Places the puzzle pieces onto the board in the order that they are listed in the pieces array.
@@ -50,6 +52,9 @@ def DepthLimitedSearch(puzzle, pieces, currentDepth, maxDepth, pruneSize, nodesE
 				puzzle = copy.deepcopy(tempPuzzle)
 			# prune if there is an island
 			else:
+				# Uncomment this to show the visualization
+				# plt.imshow(puzzle)
+				# plt.pause(0.000000001)
 				prune = Pruning(puzzle, pruneSize)
 				if (prune == True):
 					puzzle = copy.deepcopy(tempPuzzle)
@@ -342,94 +347,3 @@ if __name__ == "__main__":
 	seconds = end - start
 	print("Time taken: %.3f seconds" %seconds)
 	print("Number of nodes expanded: %s\n" %nodesExpanded)
-
-	#pruning algorithm test cases
-	'''
-	testpuzzle1 =[
-		[ 0, 1, 0, 0 ],
-		[ 1, 1, 0, -1 ],
-		[ 0, 0, -1, -1 ],
-		[ 0, -1, -1, -1 ]
-	]
-
-	testpuzzle2 =[
-		[ 0, 0, 0, 0 ],
-		[ 0, 0, 0, -1 ],
-		[ 1, 1, -1, -1 ],
-		[ 0, -1, -1, -1 ]
-	]
-
-	testpuzzle3 =[
-		[ 0, 0, 1, 0 ],
-		[ 0, 0, 1, -1 ],
-		[ 0, 0, -1, -1 ],
-		[ 0, -1, -1, -1 ]
-	]
-
-	testpuzzle4 =[
-		[ 1, 1, 0, 0 ],
-		[ 0, 1, 0, -1 ],
-		[ 1, 1, -1, -1 ],
-		[ 0, -1, -1, -1 ]
-	]
-
-	testpuzzle5 =[
-		[ 0, 1, 0, 1 ],
-		[ 0, 1, 1, -1 ],
-		[ 0, 0, -1, -1 ],
-		[ 0, -1, -1, -1 ]
-	]
-
-	testpuzzle6 =[
-		[ 0, 1, 1, 1 ],
-		[ 0, 1, 0, -1 ],
-		[ 0, 1, -1, -1 ],
-		[ 0, -1, -1, -1 ]
-	]
-
-	testpuzzle7 =[
-		[ 1, 0, 0, 1 ],
-		[ 1, 1, 0, -1 ],
-		[ 0, 1, -1, -1 ],
-		[ 0, -1, -1, -1 ]
-	]
-
-	testpuzzle8 =[
-		[ 0, 0, 0, 0 ],
-		[ 0, 0, 0, -1 ],
-		[ 0, 0, -1, -1 ],
-		[ 0, -1, -1, -1 ]
-	]
-
-	testpuzzle9 =[
-		[ 1, 0, 0, 1 ],
-		[ 1, 0, 1, -1 ],
-		[ 0, 0, -1, -1 ],
-		[ 0, -1, -1, -1 ]
-	]
-	testpuzzle10 =[
-		[ 1, 0, 0, 0 ],
-		[ 1, 1, 1, -1 ],
-		[ 1, 1, -1, -1 ],
-		[ 1, -1, -1, -1 ]
-	]
-
-	testpuzzle11 =[
-		[ 1, 0, 0, 1 ],
-		[ 1, 0, 1, -1 ],
-		[ 1, 1, -1, -1 ],
-		[ 1, -1, -1, -1 ]
-	]
-
-	print(Pruning(testpuzzle1, 3))
-	print(Pruning(testpuzzle2, 3))
-	print(Pruning(testpuzzle3, 3))
-	print(Pruning(testpuzzle4, 3))
-	print(Pruning(testpuzzle5, 3))
-	print(Pruning(testpuzzle6, 3))
-	print(Pruning(testpuzzle7, 3))
-	print(Pruning(testpuzzle8, 3))
-	print(Pruning(testpuzzle9, 3))
-	print(Pruning(testpuzzle10, 3))
-	print(Pruning(testpuzzle11, 3))
-	'''
